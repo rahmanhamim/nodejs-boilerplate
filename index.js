@@ -3,6 +3,7 @@ const cors = require("cors");
 require("dotenv").config();
 const dbConnect = require("./utils/dbConnect");
 const toolsRoutes = require("./routes/v1/tools.route");
+const viewCount = require("./middleware/viewCount");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -10,6 +11,10 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
+// middleware
+// app.use(viewCount);
+
+// database connection
 dbConnect();
 
 app.use("/api/v1/tools", toolsRoutes);

@@ -1,5 +1,6 @@
 const express = require("express");
 const toolsControllers = require("../../controllers/tools.controller");
+const viewCount = require("../../middleware/viewCount");
 
 const router = express.Router();
 
@@ -47,5 +48,7 @@ router
      * @apiError {Unauthorized 403} Forbidden  -  Only admins  can access the data
      */
     .post(toolsControllers.saveATool);
+
+router.route("/:id").get(viewCount, toolsControllers.getToolDetails);
 
 module.exports = router;
