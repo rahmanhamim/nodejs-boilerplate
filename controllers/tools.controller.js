@@ -1,14 +1,36 @@
+const tools = [
+    {
+        id: 1,
+        name: "Hammer",
+    },
+    {
+        id: 2,
+        name: "Screwdriver",
+    },
+    {
+        id: 3,
+        name: "Axe",
+    },
+];
+
 module.exports.getAllTools = (req, res, next) => {
-    const { ip, query, params, body, headers } = req;
-    console.log(ip, query, params, body, headers);
-    // res.send("got it");
-    // res.download(__dirname + "/tools.controller.js");
-    // res.redirect("/login");
-    res.json({ name: "tools" });
+    // const { ip, query, params, body, headers } = req;
+
+    const { limit, page } = req.query;
+    console.log(limit, page);
+
+    res.json(tools.slice(0, limit));
 };
 
-module.exports.saveATool = (req, res) => {};
+module.exports.saveATool = (req, res) => {
+    console.log(req.body);
+    tools.push(req.body);
+    res.send(tools);
+};
 
 module.exports.getToolDetails = (req, res) => {
-    res.send("tool detail found");
+    const { id } = req.params;
+    // const filter = {_id: id} // needed in mongoDB
+    const foundTool = tools.find((tool) => tool.id == id);
+    res.send(foundTool);
 };
