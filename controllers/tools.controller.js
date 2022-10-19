@@ -32,7 +32,15 @@ module.exports.getToolDetails = (req, res) => {
     const { id } = req.params;
     // const filter = {_id: id} // needed in mongoDB
     const foundTool = tools.find((tool) => tool.id == id);
-    res.send(foundTool);
+    res.status(200).send({
+        success: true,
+        messages: "Success",
+        data: foundTool,
+    });
+    // res.status(500).send({
+    //     success: false,
+    //     error: "Internal Server Error",
+    // });
 };
 
 module.exports.updateTool = (req, res) => {

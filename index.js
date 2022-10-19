@@ -4,6 +4,7 @@ require("dotenv").config();
 const dbConnect = require("./utils/dbConnect");
 const toolsRoutes = require("./routes/v1/tools.route");
 const viewCount = require("./middleware/viewCount");
+const errorHandler = require("./middleware/errorHandler");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -19,6 +20,7 @@ app.set("view engine", "ejs");
 // database connection
 dbConnect();
 
+// routes
 app.use("/api/v1/tools", toolsRoutes);
 
 /* ------------------ */
@@ -37,6 +39,17 @@ app.all("*", (req, res) => {
     res.send("No route found");
 });
 
+// error handler
+app.use(errorHandler);
+
 app.listen(PORT, () => {
     console.log(`Example app listening on port ${PORT}`);
+});
+
+// global error handler if express fail to handle error
+process.on("unhandledRejection", (error) => {
+    console.log(error.name, error.message);
+    app.close(() => {
+        process.exit(1);
+    });
 });
